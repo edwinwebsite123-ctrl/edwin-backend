@@ -1,3 +1,94 @@
-from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+from rest_framework import status
+from django.contrib.auth.models import User
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from .serializers import ApplicationSerializer
+from .models import *
 
-# Create your views here.
+class LoginView(APIView):
+    def post(self, request):
+        # Get username and password from the request
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        try:
+            user = User.objects.get(username=username)
+            if user.check_password(password):
+                token, created = Token.objects.get_or_create(user=user)
+                return Response({'token': token.key}, status=status.HTTP_200_OK)
+            else:
+                return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        except User.DoesNotExist:
+            return Response({'detail': 'Invalid credentials'}, status=status.HTTP_404_NOT_FOUND)
+        
+class LogoutView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        # Get the user from the request and delete the token
+        request.user.auth_token.delete()
+        return Response({'detail': 'Logged out successfully'}, status=status.HTTP_200_OK)
+    
+# List all applications (GET) - requires authentication
+class ApplicationListView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        applications = Application.objects.all()
+        serializer = ApplicationSerializer(applications, many=True)
+        return Response(serializer.data)
+
+# Retrieve or delete a specific application (GET, DELETE)
+class ApplicationDetailView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        try:
+            application = Application.objects.get(pk=pk)
+            serializer = ApplicationSerializer(application)
+            return Response(serializer.data)
+        except Application.DoesNotExist:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    def delete(self, request, pk):
+        try:
+            application = Application.objects.get(pk=pk)
+            application.delete()
+            return Response({'detail': 'Application deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except Application.DoesNotExist:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+# Create a new application (POST)
+class ApplicationCreateView(APIView):
+    def post(self, request):
+        serializer = ApplicationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DashboardCountsView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        total_applications = Application.objects.count()
+
+        data = {
+            'total_applications': total_applications,
+        }
+        return Response(data, status=status.HTTP_200_OK)
+
+class RecentLeadsView(APIView):
+    def get(self, request):
+        # Fetch the last 3 leads ordered by 'created_at' (most recent first)
+        recent_leads = Application.objects.all().order_by('-created_at')[:3]
+        serializer = ApplicationSerializer(recent_leads, many=True)
+        return Response(serializer.data)
