@@ -4,6 +4,7 @@ from .views import *
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('verify-token/', VerifyTokenView.as_view(), name='verify-token'),
 
     # Create application (POST)
     path('applications/', ApplicationCreateView.as_view(), name='application-create'),

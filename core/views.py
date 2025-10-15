@@ -32,6 +32,28 @@ class LogoutView(APIView):
         # Get the user from the request and delete the token
         request.user.auth_token.delete()
         return Response({'detail': 'Logged out successfully'}, status=status.HTTP_200_OK)
+
+
+class VerifyTokenView(APIView):
+    """
+    Verify if the token is valid.
+    Frontend sends the token in Authorization header: "Token <token>"
+    """
+    def get(self, request):
+        auth_header = request.headers.get("Authorization")
+        if not auth_header or not auth_header.startswith("Token "):
+            return Response({"detail": "Token not provided."}, status=status.HTTP_401_UNAUTHORIZED)
+
+        token_key = auth_header.split()[1]
+
+        try:
+            token = Token.objects.get(key=token_key)
+            user = token.user
+            # Return some user info if needed
+            return Response({"detail": "Token is valid", "username": user.username}, status=status.HTTP_200_OK)
+        except Token.DoesNotExist:
+            return Response({"detail": "Invalid token."}, status=status.HTTP_401_UNAUTHORIZED)
+        
     
 # List all applications (GET) - requires authentication
 class ApplicationListView(APIView):
