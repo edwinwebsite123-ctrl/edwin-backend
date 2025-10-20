@@ -61,7 +61,7 @@ class ApplicationListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        applications = Application.objects.all()
+        applications = Application.objects.all().order_by('-created_at')
         serializer = ApplicationSerializer(applications, many=True)
         return Response(serializer.data)
 
