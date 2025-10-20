@@ -17,5 +17,10 @@ urlpatterns = [
 
     path('dashboard/counts/', DashboardCountsView.as_view(), name='dashboard-counts'),
 
-    path('dashboard/recent-leads/', RecentLeadsView.as_view(), name='dashboard-recent-leads')
+    path('dashboard/recent-leads/', RecentLeadsView.as_view(), name='dashboard-recent-leads'),
+
+    path("contact/create/", ContactMessageCreateView.as_view(), name="contact-create"),
+    path("contact/list/", ContactMessageListView.as_view(), name="contact-list"),
+    path("contact/recent/", RecentContactMessageListView.as_view(), name="contact-recent"),
+    path("contact/delete/<int:pk>/", ContactMessageDeleteView.as_view(), name="contact-delete"),
 ]

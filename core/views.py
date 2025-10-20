@@ -5,8 +5,9 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import ApplicationSerializer
+from .serializers import *
 from .models import *
+from rest_framework import generics
 
 class LoginView(APIView):
     def post(self, request):
@@ -102,9 +103,11 @@ class DashboardCountsView(APIView):
 
     def get(self, request):
         total_applications = Application.objects.count()
+        total_contacts = ContactMessage.objects.count()
 
         data = {
             'total_applications': total_applications,
+            'total_contacts': total_contacts,
         }
         return Response(data, status=status.HTTP_200_OK)
 
@@ -114,3 +117,19 @@ class RecentLeadsView(APIView):
         recent_leads = Application.objects.all().order_by('-created_at')[:3]
         serializer = ApplicationSerializer(recent_leads, many=True)
         return Response(serializer.data)
+    
+class ContactMessageCreateView(generics.CreateAPIView):
+    queryset = ContactMessage.objects.all()
+    serializer_class = ContactMessageSerializer
+
+class ContactMessageListView(generics.ListAPIView):
+    queryset = ContactMessage.objects.all().order_by("-created_at")
+    serializer_class = ContactMessageSerializer
+
+class RecentContactMessageListView(generics.ListAPIView):
+    queryset = ContactMessage.objects.all().order_by("-created_at")[:3]
+    serializer_class = ContactMessageSerializer
+
+class ContactMessageDeleteView(generics.DestroyAPIView):
+    queryset = ContactMessage.objects.all()
+    serializer_class = ContactMessageSerializer
