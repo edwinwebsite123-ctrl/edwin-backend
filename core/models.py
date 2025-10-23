@@ -40,3 +40,32 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.subject}"
+
+
+class Course(models.Model):
+    id = models.SlugField(primary_key=True, unique=True)
+    title = models.CharField(max_length=255)
+    short_description = models.TextField()
+    category = models.CharField(max_length=255)
+    duration = models.CharField(max_length=100)
+    level = models.CharField(max_length=100)
+    mode = models.CharField(max_length=100)
+    certification = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='courses/', blank=True, null=True)
+    overview = models.TextField()
+
+    # JSON fields for nested data
+    modules = models.JSONField(default=list, blank=True)
+    career_opportunities = models.JSONField(default=list, blank=True)
+    tools = models.JSONField(default=list, blank=True)
+    highlights = models.JSONField(default=list, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Course"
+        verbose_name_plural = "Courses"
+
+    def __str__(self):
+        return self.title

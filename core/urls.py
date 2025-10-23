@@ -23,4 +23,11 @@ urlpatterns = [
     path("contact/list/", ContactMessageListView.as_view(), name="contact-list"),
     path("contact/recent/", RecentContactMessageListView.as_view(), name="contact-recent"),
     path("contact/delete/<int:pk>/", ContactMessageDeleteView.as_view(), name="contact-delete"),
+
+    # Course API endpoints
+    path('courses/', CourseListView.as_view(), name='course-list'),  # GET - Public
+    path('courses/<slug:id>/', CourseDetailView.as_view(), name='course-detail'),  # GET - Public
+    path('courses/create/', CourseCreateView.as_view(), name='course-create'),  # POST - Auth required
+    path('courses/<slug:id>/update/', CourseUpdateView.as_view(), name='course-update'),  # PUT/PATCH - Auth required
+    path('courses/<slug:id>/delete/', CourseDeleteView.as_view(), name='course-delete'),  # DELETE - Auth required
 ]

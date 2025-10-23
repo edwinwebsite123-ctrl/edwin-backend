@@ -61,6 +61,10 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
+# Media files (ignore all except courses folder)
+media/*
+!media/courses/
+
 # Flask stuff:
 instance/
 .webassets-cache

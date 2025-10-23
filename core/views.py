@@ -133,3 +133,88 @@ class RecentContactMessageListView(generics.ListAPIView):
 class ContactMessageDeleteView(generics.DestroyAPIView):
     queryset = ContactMessage.objects.all()
     serializer_class = ContactMessageSerializer
+
+
+# Course API Views
+class CourseListView(APIView):
+    """
+    GET: Public access - List all courses
+    """
+    def get(self, request):
+        courses = Course.objects.all().order_by('-created_at')
+        serializer = CourseSerializer(courses, many=True)
+        return Response(serializer.data)
+
+
+class CourseDetailView(APIView):
+    """
+    GET: Public access - Retrieve a specific course by id
+    """
+    def get(self, request, id):
+        try:
+            course = Course.objects.get(id=id)
+            serializer = CourseSerializer(course)
+            return Response(serializer.data)
+        except Course.DoesNotExist:
+            return Response({'detail': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class CourseCreateView(APIView):
+    """
+    POST: Requires authentication - Create a new course
+    """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CourseUpdateView(APIView):
+    """
+    PUT/PATCH: Requires authentication - Update an existing course
+    """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            course = Course.objects.get(id=id)
+            serializer = CourseSerializer(course, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Course.DoesNotExist:
+            return Response({'detail': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    def patch(self, request, id):
+        try:
+            course = Course.objects.get(id=id)
+            serializer = CourseSerializer(course, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Course.DoesNotExist:
+            return Response({'detail': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class CourseDeleteView(APIView):
+    """
+    DELETE: Requires authentication - Delete a course
+    """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            course = Course.objects.get(id=id)
+            course.delete()
+            return Response({'detail': 'Course deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except Course.DoesNotExist:
+            return Response({'detail': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
