@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Application, ContactMessage
+from .models import Application, ContactMessage, Course
 
 class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'email', 'interested_course', 'course_mode', 'select_center', 'place')
@@ -14,3 +14,5 @@ class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ("name", "email", "phone", "subject", "created_at")
     search_fields = ("name", "email", "subject")
     list_filter = ("created_at",)
+
+admin.site.register(Course)
