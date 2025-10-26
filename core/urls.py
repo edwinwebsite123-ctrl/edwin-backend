@@ -25,11 +25,11 @@ urlpatterns = [
     path("contact/delete/<int:pk>/", ContactMessageDeleteView.as_view(), name="contact-delete"),
 
     # Course API endpoints
-    path('courses/', CourseListView.as_view(), name='course-list'),  # GET - Public
-    path('courses/<slug:id>/', CourseDetailView.as_view(), name='course-detail'),  # GET - Public
-    path('courses/create/', CourseCreateView.as_view(), name='course-create'),  # POST - Auth required
-    path('courses/<slug:id>/update/', CourseUpdateView.as_view(), name='course-update'),  # PUT/PATCH - Auth required
-    path('courses/<slug:id>/delete/', CourseDeleteView.as_view(), name='course-delete'),  # DELETE - Auth required
+    path("courses/", CourseListView.as_view(), name="course-list"),
+    path("courses/<slug:id>/", CourseDetailView.as_view(), name="course-detail"),
+    path("courses/create", CourseCreateView.as_view(), name="course-create"),
+    path("courses/<slug:id>/update/", CourseUpdateView.as_view(), name="course-update"),
+    path("courses/<slug:id>/delete/", CourseDeleteView.as_view(), name="course-delete"),
 
     path('placements/', PlacementListView.as_view(), name='placement-list'),
     path('placements/<int:id>/', PlacementDetailView.as_view(), name='placement-detail'),
@@ -66,13 +66,13 @@ urlpatterns = [
     path('ug-programs/', UGProgramListAPIView.as_view(), name='ug-program-list'),
     path('ug-programs/<int:id>/', UGProgramDetailAPIView.as_view(), name='ug-program-detail'),
     path('ug-programs/create/', UGProgramCreateAPIView.as_view(), name='ug-program-create'),
-    path('ug-programs/update/<int:id>/', UGProgramUpdateAPIView.as_view(), name='ug-program-update'),
-    path('ug-programs/delete/<int:id>/', UGProgramDeleteAPIView.as_view(), name='ug-program-delete'),
+    path('ug-programs/<int:id>/update/', UGProgramUpdateAPIView.as_view(), name='ug-program-update'),
+    path('ug-programs/<int:id>/delete/', UGProgramDeleteAPIView.as_view(), name='ug-program-delete'),
 
     # PG
     path('pg-programs/', PGProgramListAPIView.as_view(), name='pg-program-list'),
     path('pg-programs/<int:id>/', PGProgramDetailAPIView.as_view(), name='pg-program-detail'),
     path('pg-programs/create/', PGProgramCreateAPIView.as_view(), name='pg-program-create'),
-    path('pg-programs/update/<int:id>/', PGProgramUpdateAPIView.as_view(), name='pg-program-update'),
-    path('pg-programs/delete/<int:id>/', PGProgramDeleteAPIView.as_view(), name='pg-program-delete'),
+    path('pg-programs/<int:id>/update/', PGProgramUpdateAPIView.as_view(), name='pg-program-update'),
+    path('pg-programs/<int:id>/delete/', PGProgramDeleteAPIView.as_view(), name='pg-program-delete'),
 ]
