@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "title": "AI in Education",
+        "image": "edwintalks/2.jpeg"
+    },
+    {
+        "id": 2,
+        "title": "Building Startups",
+        "image": "edwintalks/4.jpeg"
+    },
+    {
+        "id": 3,
+        "title": "Design Thinking",
+        "image": "edwintalks/3.jpeg"
+    },
+    {
+        "id": 4,
+        "title": "Data Science",
+        "image": "edwintalks/1.jpeg"
+    },
+    {
+        "id": 5,
+        "title": "Digital Marketing",
+        "image": "edwintalks/5.jpeg"
+    },
+    {
+        "id": 6,
+        "title": "Cybersecurity",
+        "image": "edwintalks/6.jpeg"
+    }
+]

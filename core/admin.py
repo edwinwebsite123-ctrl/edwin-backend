@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Application, ContactMessage, Course
+from .models import Application, ContactMessage, Course, Placement
 
 class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'email', 'interested_course', 'course_mode', 'select_center', 'place')
@@ -16,3 +16,5 @@ class ContactMessageAdmin(admin.ModelAdmin):
     list_filter = ("created_at",)
 
 admin.site.register(Course)
+
+admin.site.register(Placement)

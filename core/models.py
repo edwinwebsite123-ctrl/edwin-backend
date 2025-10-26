@@ -69,3 +69,44 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Placement(models.Model):
+    name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
+    company = models.CharField(max_length=150)
+    company_logo = models.ImageField(upload_to='placements/')
+    student_image = models.ImageField(upload_to='placements/')
+    background_image = models.ImageField(upload_to='placements/')
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return f"{self.name} - {self.role} at {self.company}"
+    
+class EdwinTalk(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='edwintalks/')
+    created_at = models.DateTimeField(auto_now_add=True) 
+    updated_at = models.DateTimeField(auto_now=True) 
+
+    def __str__(self):
+        return self.title
+    
+class Testimonial(models.Model):
+    text = models.TextField()
+    name = models.CharField(max_length=150)
+    role = models.CharField(max_length=100)
+    image = models.ImageField(
+        upload_to='testimonials/',
+        blank=True,
+        null=True
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.role}"

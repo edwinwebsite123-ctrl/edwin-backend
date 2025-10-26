@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Application, ContactMessage, Course
+from .models import *
 
 class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,4 +14,19 @@ class ContactMessageSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
+        fields = '__all__'
+
+class PlacementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Placement
+        fields = '__all__'
+
+class EdwinTalkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EdwinTalk
+        fields = '__all__'
+
+class TestimonialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Testimonial
         fields = '__all__'

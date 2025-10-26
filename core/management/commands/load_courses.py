@@ -1,5 +1,7 @@
 import json
+import os
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from core.models import Course
 
 
@@ -19,26 +21,25 @@ class Command(BaseCommand):
             help='Clear all existing courses before loading'
         )
 
-    def handle(self, *args, **options):
-        file_path = options['file']
-        
+    def handle(self, *args, **kwargs):
+        file_name = kwargs['file']
+        clear_existing = kwargs['clear']
+        file_path = os.path.join(settings.BASE_DIR, 'data', file_name)
+
         try:
-            # Read and parse the properly formatted JSON file
             with open(file_path, 'r', encoding='utf-8') as file:
                 courses_data = json.load(file)
-            
-            # Clear existing courses if requested
-            if options['clear']:
-                deleted_count = Course.objects.all().count()
+
+            if clear_existing:
+                deleted_count = Course.objects.count()
                 Course.objects.all().delete()
                 self.stdout.write(
                     self.style.WARNING(f'Deleted {deleted_count} existing courses')
                 )
-            
-            # Load/update courses
+
             created_count = 0
             updated_count = 0
-            
+
             for course_data in courses_data:
                 course, created = Course.objects.update_or_create(
                     id=course_data['id'],
@@ -58,7 +59,7 @@ class Command(BaseCommand):
                         'highlights': course_data.get('highlights', []),
                     }
                 )
-                
+
                 if created:
                     created_count += 1
                     self.stdout.write(self.style.SUCCESS(f'✓ Created: {course.title}'))
@@ -72,6 +73,10 @@ class Command(BaseCommand):
                     f'Created: {created_count}\nUpdated: {updated_count}'
                 )
             )
-            
+
+        except FileNotFoundError:
+            self.stdout.write(self.style.ERROR(f'File not found: {file_path}'))
+        except json.JSONDecodeError as e:
+            self.stdout.write(self.style.ERROR(f'Invalid JSON format: {str(e)}'))
         except Exception as e:
             self.stdout.write(self.style.ERROR(f'Error: {str(e)}'))

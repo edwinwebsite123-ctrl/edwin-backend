@@ -64,6 +64,9 @@ db.sqlite3-journal
 # Media files (ignore all except courses folder)
 media/*
 !media/courses/
+!media/placements/
+!media/edwintalks/
+!media/testimonials/
 
 # Flask stuff:
 instance/

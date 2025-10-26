@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "name": "JUBAIR AA",
+    "role": "HR Executive",
+    "company": "Lisie Hospital",
+    "companyLogo": "/placements/apple.png",
+    "studentImage": "/placements/boy-1.png",
+    "backgroundImage": "/placements/bg.png"
+  },
+  {
+    "id": 2,
+    "name": "AYSHA SHADA",
+    "role": "Digital Marketer",
+    "company": "Mexilet Technologies",
+    "companyLogo": "/placements/chat-gpt.png",
+    "studentImage": "/placements/girl-1.png",
+    "backgroundImage": "/placements/bg.png"
+  },
+  {
+    "id": 3,
+    "name": "RIZWAN KP",
+    "role": "HR Executive",
+    "company": "Roohi Recruitment",
+    "companyLogo": "/placements/intel.png",
+    "studentImage": "/placements/boy-2.png",
+    "backgroundImage": "/placements/bg.png"
+  },
+  {
+    "id": 4,
+    "name": "ASIF KA",
+    "role": "HR Executive",
+    "company": "Core institute of technology",
+    "companyLogo": "/placements/microsoft.png",
+    "studentImage": "/placements/boy-3.png",
+    "backgroundImage": "/placements/bg.png"
+  },
+  {
+    "id": 5,
+    "name": "Fathima Milsha",
+    "role": "HR Executive",
+    "company": "Gaotech",
+    "companyLogo": "/placements/apple.png",
+    "studentImage": "/placements/girl-2.png",
+    "backgroundImage": "/placements/bg.png"
+  }
+]

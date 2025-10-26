@@ -218,3 +218,214 @@ class CourseDeleteView(APIView):
             return Response({'detail': 'Course deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except Course.DoesNotExist:
             return Response({'detail': 'Course not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Placement API Views
+class PlacementListView(APIView):
+    """
+    GET: Public access - List all Placements
+    """
+    def get(self, request):
+        placements = Placement.objects.all().order_by('-created_at')
+        serializer = PlacementSerializer(placements, many=True)
+        return Response(serializer.data)
+
+
+class PlacementDetailView(APIView):
+    """
+    GET: Public access - Retrieve a specific Placement by id
+    """
+    def get(self, request, id):
+        try:
+            placement = Placement.objects.get(id=id)
+            serializer = PlacementSerializer(placement)
+            return Response(serializer.data)
+        except Placement.DoesNotExist:
+            return Response({'detail': 'Placement not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class PlacementCreateView(APIView):
+    """
+    POST: Requires authentication - Create a new Placement
+    """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = PlacementSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PlacementUpdateView(APIView):
+    """
+    PUT/PATCH: Requires authentication - Update an existing Placement
+    """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            placement = Placement.objects.get(id=id)
+        except Placement.DoesNotExist:
+            return Response({'detail': 'Placement not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = PlacementSerializer(placement, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, id):
+        try:
+            placement = Placement.objects.get(id=id)
+        except Placement.DoesNotExist:
+            return Response({'detail': 'Placement not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = PlacementSerializer(placement, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PlacementDeleteView(APIView):
+    """
+    DELETE: Requires authentication - Delete a Placement
+    """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            placement = Placement.objects.get(id=id)
+            placement.delete()
+            return Response({'detail': 'Placement deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except Placement.DoesNotExist:
+            return Response({'detail': 'Placement not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+# List all talks
+class EdwinTalkListView(APIView):
+    def get(self, request):
+        talks = EdwinTalk.objects.all().order_by('-id')
+        serializer = EdwinTalkSerializer(talks, many=True)
+        return Response(serializer.data)
+
+
+# Retrieve a single talk
+class EdwinTalkDetailView(APIView):
+    def get(self, request, id):
+        try:
+            talk = EdwinTalk.objects.get(id=id)
+            serializer = EdwinTalkSerializer(talk)
+            return Response(serializer.data)
+        except EdwinTalk.DoesNotExist:
+            return Response({'detail': 'Talk not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Create a talk (auth required)
+class EdwinTalkCreateView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = EdwinTalkSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Update talk
+class EdwinTalkUpdateView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            talk = EdwinTalk.objects.get(id=id)
+        except EdwinTalk.DoesNotExist:
+            return Response({'detail': 'Talk not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = EdwinTalkSerializer(talk, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Delete talk
+class EdwinTalkDeleteView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            talk = EdwinTalk.objects.get(id=id)
+            talk.delete()
+            return Response({'detail': 'Talk deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except EdwinTalk.DoesNotExist:
+            return Response({'detail': 'Talk not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+
+
+# List all testimonials
+class TestimonialListAPIView(APIView):
+    def get(self, request):
+        testimonials = Testimonial.objects.all().order_by('-id')
+        serializer = TestimonialSerializer(testimonials, many=True)
+        return Response(serializer.data)
+
+# Retrieve a single testimonial
+class TestimonialDetailAPIView(APIView):
+    def get(self, request, id):
+        try:
+            testimonial = Testimonial.objects.get(id=id)
+            serializer = TestimonialSerializer(testimonial)
+            return Response(serializer.data)
+        except Testimonial.DoesNotExist:
+            return Response({'detail': 'Testimonial not found'}, status=status.HTTP_404_NOT_FOUND)
+
+# Create a testimonial (auth required)
+class TestimonialCreateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = TestimonialSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Update testimonial (auth required)
+class TestimonialUpdateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            testimonial = Testimonial.objects.get(id=id)
+        except Testimonial.DoesNotExist:
+            return Response({'detail': 'Testimonial not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = TestimonialSerializer(testimonial, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Delete testimonial (auth required)
+class TestimonialDeleteAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            testimonial = Testimonial.objects.get(id=id)
+            testimonial.delete()
+            return Response({'detail': 'Testimonial deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except Testimonial.DoesNotExist:
+            return Response({'detail': 'Testimonial not found'}, status=status.HTTP_404_NOT_FOUND)
