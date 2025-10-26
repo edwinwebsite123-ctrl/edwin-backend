@@ -141,7 +141,7 @@ class CourseListView(APIView):
     GET: Public access - List all courses
     """
     def get(self, request):
-        courses = Course.objects.all().order_by('created_at')
+        courses = Course.objects.all().order_by('-created_at')
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data)
 
