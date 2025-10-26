@@ -1,0 +1,67 @@
+[
+  {
+    "code": "BA",
+    "name": "Bachelor of Arts",
+    "subtitle": "Foundational Humanities Studies",
+    "description": "Comprehensive undergraduate program in liberal arts with focus on language, literature, and social sciences.",
+    "duration": "3 Years",
+    "specializations": ["English", "History", "Political Science", "Sociology", "Economics"],
+    "eligibility": "12th Pass (any stream)",
+    "students": "2000",
+    "modules": 18,
+    "rating": 4.6,
+    "image": null
+  },
+  {
+    "code": "BBA",
+    "name": "Bachelor of Business Administration",
+    "subtitle": "Business & Management Studies",
+    "description": "Undergraduate program focused on developing strong business acumen and leadership qualities.",
+    "duration": "3 Years",
+    "specializations": ["Marketing", "Finance", "Human Resources", "International Business"],
+    "eligibility": "12th Pass (any stream)",
+    "students": "2500",
+    "modules": 20,
+    "rating": 4.7,
+    "image": null
+  },
+  {
+    "code": "BCA",
+    "name": "Bachelor of Computer Applications",
+    "subtitle": "IT and Software Development",
+    "description": "Focuses on computer programming, databases, networking, and modern software development.",
+    "duration": "3 Years",
+    "specializations": ["Full Stack Development", "Data Science", "AI & Machine Learning", "Cyber Security"],
+    "eligibility": "12th Pass (Mathematics preferred)",
+    "students": "1800",
+    "modules": 22,
+    "rating": 4.8,
+    "image": null
+  },
+  {
+    "code": "BCom",
+    "name": "Bachelor of Commerce",
+    "subtitle": "Commerce & Finance Studies",
+    "description": "Develops foundation in accounting, business law, taxation, and finance management.",
+    "duration": "3 Years",
+    "specializations": ["Accounting & Taxation", "Banking & Finance", "E-Commerce"],
+    "eligibility": "12th Pass (Commerce or any stream)",
+    "students": "2300",
+    "modules": 18,
+    "rating": 4.5,
+    "image": null
+  },
+  {
+    "code": "BSc",
+    "name": "Bachelor of Science",
+    "subtitle": "Core Science Studies",
+    "description": "Comprehensive undergraduate science degree focusing on analytical and research skills.",
+    "duration": "3 Years",
+    "specializations": ["Physics", "Chemistry", "Mathematics", "Biotechnology", "Computer Science"],
+    "eligibility": "12th Pass (Science stream)",
+    "students": "2100",
+    "modules": 21,
+    "rating": 4.7,
+    "image": null
+  }
+]

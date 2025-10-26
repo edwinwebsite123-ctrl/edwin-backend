@@ -48,4 +48,31 @@ urlpatterns = [
     path('testimonials/create/', TestimonialCreateAPIView.as_view(), name='testimonial-create'),
     path('testimonials/<int:id>/update/', TestimonialUpdateAPIView.as_view(), name='testimonial-update'),
     path('testimonials/<int:id>/delete/', TestimonialDeleteAPIView.as_view(), name='testimonial-delete'),
+
+    path("faculty/", FacultyListAPIView.as_view(), name="faculty-list"),
+    path("faculty/<int:id>/", FacultyDetailAPIView.as_view(), name="faculty-detail"),
+    path("faculty/create/", FacultyCreateAPIView.as_view(), name="faculty-create"),
+    path("faculty/update/<int:id>/", FacultyUpdateAPIView.as_view(), name="faculty-update"),
+    path("faculty/delete/<int:id>/", FacultyDeleteAPIView.as_view(), name="faculty-delete"),
+
+    path("placement-posters/", PlacementPosterListAPIView.as_view(), name="poster-list"),
+    path("placement-posters/<int:id>/", PlacementPosterDetailAPIView.as_view(), name="poster-detail"),
+    path("placement-posters/create/", PlacementPosterCreateAPIView.as_view(), name="poster-create"),
+    path("placement-posters/update/<int:id>/", PlacementPosterUpdateAPIView.as_view(), name="poster-update"),
+    path("placement-posters/delete/<int:id>/", PlacementPosterDeleteAPIView.as_view(), name="poster-delete"),
+
+
+    # UG
+    path('ug-programs/', UGProgramListAPIView.as_view(), name='ug-program-list'),
+    path('ug-programs/<int:id>/', UGProgramDetailAPIView.as_view(), name='ug-program-detail'),
+    path('ug-programs/create/', UGProgramCreateAPIView.as_view(), name='ug-program-create'),
+    path('ug-programs/update/<int:id>/', UGProgramUpdateAPIView.as_view(), name='ug-program-update'),
+    path('ug-programs/delete/<int:id>/', UGProgramDeleteAPIView.as_view(), name='ug-program-delete'),
+
+    # PG
+    path('pg-programs/', PGProgramListAPIView.as_view(), name='pg-program-list'),
+    path('pg-programs/<int:id>/', PGProgramDetailAPIView.as_view(), name='pg-program-detail'),
+    path('pg-programs/create/', PGProgramCreateAPIView.as_view(), name='pg-program-create'),
+    path('pg-programs/update/<int:id>/', PGProgramUpdateAPIView.as_view(), name='pg-program-update'),
+    path('pg-programs/delete/<int:id>/', PGProgramDeleteAPIView.as_view(), name='pg-program-delete'),
 ]

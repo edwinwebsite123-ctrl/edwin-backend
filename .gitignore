@@ -67,6 +67,7 @@ media/*
 !media/placements/
 !media/edwintalks/
 !media/testimonials/
+!media/faculty/
 
 # Flask stuff:
 instance/

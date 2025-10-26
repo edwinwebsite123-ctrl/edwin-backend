@@ -429,3 +429,252 @@ class TestimonialDeleteAPIView(APIView):
             return Response({'detail': 'Testimonial deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except Testimonial.DoesNotExist:
             return Response({'detail': 'Testimonial not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+
+# List all Faculty
+class FacultyListAPIView(APIView):
+    def get(self, request):
+        faculties = Faculty.objects.all().order_by("-id")
+        serializer = FacultySerializer(faculties, many=True)
+        return Response(serializer.data)
+
+
+# Retrieve a single Faculty
+class FacultyDetailAPIView(APIView):
+    def get(self, request, id):
+        try:
+            faculty = Faculty.objects.get(id=id)
+            serializer = FacultySerializer(faculty)
+            return Response(serializer.data)
+        except Faculty.DoesNotExist:
+            return Response({"detail": "Faculty not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Create a Faculty (auth required)
+class FacultyCreateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = FacultySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Update Faculty (auth required)
+class FacultyUpdateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            faculty = Faculty.objects.get(id=id)
+        except Faculty.DoesNotExist:
+            return Response({"detail": "Faculty not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = FacultySerializer(faculty, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Delete Faculty (auth required)
+class FacultyDeleteAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            faculty = Faculty.objects.get(id=id)
+            faculty.delete()
+            return Response({"detail": "Faculty deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+        except Faculty.DoesNotExist:
+            return Response({"detail": "Faculty not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+
+# List all Posters
+class PlacementPosterListAPIView(APIView):
+    def get(self, request):
+        posters = PlacementPoster.objects.all().order_by("-id")
+        serializer = PlacementPosterSerializer(posters, many=True)
+        return Response(serializer.data)
+
+
+# Retrieve a single Poster
+class PlacementPosterDetailAPIView(APIView):
+    def get(self, request, id):
+        try:
+            poster = PlacementPoster.objects.get(id=id)
+            serializer = PlacementPosterSerializer(poster)
+            return Response(serializer.data)
+        except PlacementPoster.DoesNotExist:
+            return Response({'detail': 'Poster not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Create Poster (auth required)
+class PlacementPosterCreateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = PlacementPosterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Update Poster (auth required)
+class PlacementPosterUpdateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            poster = PlacementPoster.objects.get(id=id)
+        except PlacementPoster.DoesNotExist:
+            return Response({'detail': 'Poster not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = PlacementPosterSerializer(poster, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Delete Poster (auth required)
+class PlacementPosterDeleteAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            poster = PlacementPoster.objects.get(id=id)
+            poster.delete()
+            return Response({'detail': 'Poster deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except PlacementPoster.DoesNotExist:
+            return Response({'detail': 'Poster not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+
+
+# ---------- UG ----------
+class UGProgramListAPIView(APIView):
+    def get(self, request):
+        programs = UGProgram.objects.all().order_by('-id')
+        serializer = UGProgramSerializer(programs, many=True)
+        return Response(serializer.data)
+
+
+class UGProgramDetailAPIView(APIView):
+    def get(self, request, id):
+        try:
+            program = UGProgram.objects.get(id=id)
+            serializer = UGProgramSerializer(program)
+            return Response(serializer.data)
+        except UGProgram.DoesNotExist:
+            return Response({'detail': 'UG Program not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class UGProgramCreateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = UGProgramSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UGProgramUpdateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            program = UGProgram.objects.get(id=id)
+        except UGProgram.DoesNotExist:
+            return Response({'detail': 'UG Program not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = UGProgramSerializer(program, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UGProgramDeleteAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            program = UGProgram.objects.get(id=id)
+            program.delete()
+            return Response({'detail': 'UG Program deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except UGProgram.DoesNotExist:
+            return Response({'detail': 'UG Program not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# ---------- PG ----------
+class PGProgramListAPIView(APIView):
+    def get(self, request):
+        programs = PGProgram.objects.all().order_by('-id')
+        serializer = PGProgramSerializer(programs, many=True)
+        return Response(serializer.data)
+
+
+class PGProgramDetailAPIView(APIView):
+    def get(self, request, id):
+        try:
+            program = PGProgram.objects.get(id=id)
+            serializer = PGProgramSerializer(program)
+            return Response(serializer.data)
+        except PGProgram.DoesNotExist:
+            return Response({'detail': 'PG Program not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class PGProgramCreateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = PGProgramSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PGProgramUpdateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            program = PGProgram.objects.get(id=id)
+        except PGProgram.DoesNotExist:
+            return Response({'detail': 'PG Program not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = PGProgramSerializer(program, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PGProgramDeleteAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            program = PGProgram.objects.get(id=id)
+            program.delete()
+            return Response({'detail': 'PG Program deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except PGProgram.DoesNotExist:
+            return Response({'detail': 'PG Program not found'}, status=status.HTTP_404_NOT_FOUND)

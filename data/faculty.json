@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Vineetha",
+    "title": "Head of Healthcare Department, Edwin Academy",
+    "faculty_image": "/faculty/vineetha.jpeg",
+    "bg_image": "/placements/bg.png"
+  },
+  {
+    "name": "Soniya N",
+    "title": "HR Trainer",
+    "faculty_image": "/faculty/soniya.jpeg",
+    "bg_image": "/placements/bg.png"
+  },
+  {
+    "name": "Dr. Anupriya N",
+    "title": "Public Health & Ayurveda Specialist",
+    "faculty_image": "/faculty/anupriya.jpeg",
+    "bg_image": "/placements/bg.png"
+  },
+  {
+    "name": "Sharath K",
+    "title": "HR Faculty, Edwin Academy",
+    "faculty_image": "/faculty/sharath.jpeg",
+    "bg_image": "/placements/bg.png"
+  },
+  {
+    "name": "Shilpa Ghosh P V",
+    "title": "Senior HRM Faculty",
+    "faculty_image": "/faculty/shilpa.jpg",
+    "bg_image": "/placements/bg.png"
+  }
+]

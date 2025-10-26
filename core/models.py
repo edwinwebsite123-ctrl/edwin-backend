@@ -110,3 +110,61 @@ class Testimonial(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.role}"
+    
+class Faculty(models.Model):
+    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=200)
+    faculty_image = models.ImageField(upload_to='faculty/')
+    bg_image = models.ImageField(upload_to='faculty/backgrounds/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.title}"
+    
+class PlacementPoster(models.Model):
+    image = models.ImageField(upload_to='placements/old/')
+    alt = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.alt
+    
+    
+class UGProgram(models.Model):
+    code = models.CharField(max_length=20)
+    name = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=255)
+    description = models.TextField()
+    duration = models.CharField(max_length=50)
+    specializations = models.JSONField()
+    eligibility = models.CharField(max_length=255)
+    students = models.CharField(max_length=50)
+    modules = models.PositiveIntegerField()
+    rating = models.DecimalField(max_digits=3, decimal_places=1)
+    image = models.ImageField(upload_to='programs/ug/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.code})"
+
+
+class PGProgram(models.Model):
+    code = models.CharField(max_length=20)
+    name = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=255)
+    description = models.TextField()
+    duration = models.CharField(max_length=50)
+    specializations = models.JSONField()
+    eligibility = models.CharField(max_length=255)
+    students = models.CharField(max_length=50)
+    modules = models.PositiveIntegerField()
+    rating = models.DecimalField(max_digits=3, decimal_places=1)
+    image = models.ImageField(upload_to='programs/pg/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.code})"

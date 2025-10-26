@@ -30,3 +30,25 @@ class TestimonialSerializer(serializers.ModelSerializer):
     class Meta:
         model = Testimonial
         fields = '__all__'
+
+class FacultySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Faculty
+        fields = "__all__"
+
+class PlacementPosterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlacementPoster
+        fields = "__all__"
+
+
+class UGProgramSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UGProgram
+        fields = '__all__'
+
+
+class PGProgramSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PGProgram
+        fields = '__all__'

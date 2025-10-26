@@ -1,0 +1,28 @@
+[
+  {
+    "code": "MA",
+    "name": "Master of Arts",
+    "subtitle": "Advanced Humanities",
+    "description": "Advanced studies in humanities with research and thesis work",
+    "duration": "2 Years",
+    "specializations": ["English Literature", "History", "Political Science", "Sociology", "Public Administration"],
+    "eligibility": "Bachelor's degree in relevant field",
+    "students": "1500",
+    "modules": 16,
+    "rating": 4.8,
+    "image": null
+  },
+  {
+    "code": "MBA",
+    "name": "Master of Business Administration",
+    "subtitle": "Executive Management",
+    "description": "Executive management program with industry case studies and internships",
+    "duration": "2 Years",
+    "specializations": ["Marketing Management", "Financial Management", "HR Management", "Operations", "Business Analytics"],
+    "eligibility": "Graduation in any discipline",
+    "students": "2200",
+    "modules": 20,
+    "rating": 4.9,
+    "image": null
+  }
+]
