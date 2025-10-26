@@ -678,3 +678,93 @@ class PGProgramDeleteAPIView(APIView):
             return Response({'detail': 'PG Program deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except PGProgram.DoesNotExist:
             return Response({'detail': 'PG Program not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+# ---------- Gallery ----------
+class GalleryItemListAPIView(APIView):
+    def get(self, request):
+        gallery_items = GalleryItem.objects.all().order_by('-id')
+        serializer = GalleryItemSerializer(gallery_items, many=True)
+        return Response(serializer.data)
+    
+class GalleryItemListTwoAPIView(APIView):
+    def get(self, request):
+        gallery_items = GalleryItem.objects.all().order_by('id')
+        response_data = {
+            "programs": [],
+            "events": [],
+            "convocations": [],
+            "achievements": []
+        }
+
+        for item in gallery_items:
+            serialized_item = {
+                "id": item.id,
+                "src": item.image.url if item.image else None,
+                "title": item.title,
+                "date": item.date
+            }
+            if item.category == "programs":
+                response_data["programs"].append(serialized_item)
+            elif item.category == "events":
+                response_data["events"].append(serialized_item)
+            elif item.category == "convocations":
+                response_data["convocations"].append(serialized_item)
+            elif item.category == "achievements":
+                response_data["achievements"].append(serialized_item)
+
+        return Response(response_data)
+
+
+class GalleryItemDetailAPIView(APIView):
+    def get(self, request, id):
+        try:
+            gallery_item = GalleryItem.objects.get(id=id)
+            serializer = GalleryItemSerializer(gallery_item)
+            return Response(serializer.data)
+        except GalleryItem.DoesNotExist:
+            return Response({'detail': 'Gallery Item not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class GalleryItemCreateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = GalleryItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GalleryItemUpdateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            gallery_item = GalleryItem.objects.get(id=id)
+        except GalleryItem.DoesNotExist:
+            return Response({'detail': 'Gallery Item not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = GalleryItemSerializer(gallery_item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GalleryItemDeleteAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            gallery_item = GalleryItem.objects.get(id=id)
+            gallery_item.delete()
+            return Response({'detail': 'Gallery Item deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except GalleryItem.DoesNotExist:
+            return Response({'detail': 'Gallery Item not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'detail': 'PG Program not found'}, status=status.HTTP_404_NOT_FOUND)

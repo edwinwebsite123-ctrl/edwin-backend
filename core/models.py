@@ -166,3 +166,22 @@ class PGProgram(models.Model):
 
     def __str__(self):
         return f"{self.name or 'PG Program'} ({self.code or 'N/A'})"
+    
+class GalleryItem(models.Model):
+    CATEGORY_CHOICES = [
+        ('programs', 'Programs'),
+        ('events', 'Events'),
+        ('convocations', 'Convocations'),
+        ('achievements', 'Achievements'),
+    ]
+
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True)
+    date = models.CharField(max_length=50, null=True, blank=True)
+    image = models.ImageField(upload_to='gallery/', null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.category})" if self.title else "Unnamed Gallery Item"

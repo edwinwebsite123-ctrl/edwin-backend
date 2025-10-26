@@ -52,3 +52,9 @@ class PGProgramSerializer(serializers.ModelSerializer):
     class Meta:
         model = PGProgram
         fields = '__all__'
+
+
+class GalleryItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GalleryItem
+        fields = '__all__'

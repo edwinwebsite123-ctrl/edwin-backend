@@ -1,0 +1,24 @@
+{
+  "programs": [
+    { "id": 1, "src": null, "title": "Annual Tech Symposium", "date": "March 2024" },
+    { "id": 2, "src": null, "title": "Science Exhibition", "date": "February 2024" },
+    { "id": 3, "src": null, "title": "Cultural Fest", "date": "January 2024" },
+    { "id": 4, "src": null, "title": "Leadership Workshop", "date": "March 2024" },
+    { "id": 5, "src": null, "title": "Annual Sports Day", "date": "December 2023" }
+  ],
+  "events": [
+    { "id": 6, "src": null, "title": "Guest Lecture", "date": "March 2024" },
+    { "id": 7, "src": null, "title": "International Seminar", "date": "February 2024" },
+    { "id": 8, "src": null, "title": "Alumni Reunion", "date": "January 2024" }
+  ],
+  "convocations": [
+    { "id": 9, "src": null, "title": "Convocation 2024", "date": "May 2024" },
+    { "id": 10, "src": null, "title": "Degree Distribution", "date": "May 2024" },
+    { "id": 11, "src": null, "title": "Academic Honors", "date": "May 2024" }
+  ],
+  "achievements": [
+    { "id": 12, "src": null, "title": "National Award Ceremony", "date": "April 2024" },
+    { "id": 13, "src": null, "title": "Sports Championship", "date": "March 2024" },
+    { "id": 14, "src": null, "title": "Innovation Award", "date": "February 2024" }
+  ]
+}

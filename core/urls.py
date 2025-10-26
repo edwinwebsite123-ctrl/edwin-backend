@@ -75,4 +75,12 @@ urlpatterns = [
     path('pg-programs/create/', PGProgramCreateAPIView.as_view(), name='pg-program-create'),
     path('pg-programs/<int:id>/update/', PGProgramUpdateAPIView.as_view(), name='pg-program-update'),
     path('pg-programs/<int:id>/delete/', PGProgramDeleteAPIView.as_view(), name='pg-program-delete'),
+
+    # Gallery
+    path('gallery/list/', GalleryItemListAPIView.as_view(), name='gallery-list'),
+    path('gallery/', GalleryItemListTwoAPIView.as_view(), name='gallery-list-two'),
+    path('gallery/<int:id>/', GalleryItemDetailAPIView.as_view(), name='gallery-detail'),
+    path('gallery/create/', GalleryItemCreateAPIView.as_view(), name='gallery-create'),
+    path('gallery/<int:id>/update/', GalleryItemUpdateAPIView.as_view(), name='gallery-update'),
+    path('gallery/<int:id>/delete/', GalleryItemDeleteAPIView.as_view(), name='gallery-delete'),
 ]
