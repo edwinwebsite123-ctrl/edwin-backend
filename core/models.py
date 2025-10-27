@@ -59,6 +59,8 @@ class Course(models.Model):
     tools = models.JSONField(default=list, blank=True, null=True)
     highlights = models.JSONField(default=list, blank=True, null=True)
 
+    top_choice = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

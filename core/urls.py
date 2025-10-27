@@ -26,10 +26,12 @@ urlpatterns = [
 
     # Course API endpoints
     path("courses/", CourseListView.as_view(), name="course-list"),
+    path('courses/top-choice/', TopChoiceCourseListAPIView.as_view(), name='top-choice-courses'),
     path("courses/<slug:id>/", CourseDetailView.as_view(), name="course-detail"),
     path("courses/create", CourseCreateView.as_view(), name="course-create"),
     path("courses/<slug:id>/update/", CourseUpdateView.as_view(), name="course-update"),
     path("courses/<slug:id>/delete/", CourseDeleteView.as_view(), name="course-delete"),
+    path('courses/<slug:id>/toggle-top-choice/', ToggleTopChoiceView.as_view(), name='toggle-top-choice'),
 
     path('placements/', PlacementListView.as_view(), name='placement-list'),
     path('placements/<int:id>/', PlacementDetailView.as_view(), name='placement-detail'),

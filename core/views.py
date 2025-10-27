@@ -145,6 +145,29 @@ class CourseListView(APIView):
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data)
 
+class TopChoiceCourseListAPIView(APIView):
+    def get(self, request):
+        courses = Course.objects.filter(top_choice=True).order_by('-created_at')
+        serializer = CourseSerializer(courses, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class ToggleTopChoiceView(APIView):
+    """
+    Toggle the top_choice status of a course
+    """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, id):
+        try:
+            course = Course.objects.get(id=id)
+            course.top_choice = not course.top_choice  # toggle the boolean
+            course.save()
+            serializer = CourseSerializer(course)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Course.DoesNotExist:
+            return Response({"detail": "Course not found"}, status=status.HTTP_404_NOT_FOUND)
+
 
 class CourseDetailView(APIView):
     """
