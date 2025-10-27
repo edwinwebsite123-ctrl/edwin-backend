@@ -790,4 +790,63 @@ class GalleryItemDeleteAPIView(APIView):
             return Response({'detail': 'Gallery Item deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except GalleryItem.DoesNotExist:
             return Response({'detail': 'Gallery Item not found'}, status=status.HTTP_404_NOT_FOUND)
-            return Response({'detail': 'PG Program not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# ---------- Event ----------
+class EventListAPIView(APIView):
+    def get(self, request):
+        events = Event.objects.filter(is_active=True).order_by('-id')[:1]
+        serializer = EventSerializer(events, many=True)
+        return Response(serializer.data)
+
+
+class EventDetailAPIView(APIView):
+    def get(self, request, id):
+        try:
+            event = Event.objects.get(id=id)
+            serializer = EventSerializer(event)
+            return Response(serializer.data)
+        except Event.DoesNotExist:
+            return Response({'detail': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class EventCreateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = EventSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EventUpdateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            event = Event.objects.get(id=id)
+        except Event.DoesNotExist:
+            return Response({'detail': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = EventSerializer(event, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EventDeleteAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            event = Event.objects.get(id=id)
+            event.delete()
+            return Response({'detail': 'Event deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except Event.DoesNotExist:
+            return Response({'detail': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)

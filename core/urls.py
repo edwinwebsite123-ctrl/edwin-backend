@@ -85,4 +85,11 @@ urlpatterns = [
     path('gallery/create/', GalleryItemCreateAPIView.as_view(), name='gallery-create'),
     path('gallery/<int:id>/update/', GalleryItemUpdateAPIView.as_view(), name='gallery-update'),
     path('gallery/<int:id>/delete/', GalleryItemDeleteAPIView.as_view(), name='gallery-delete'),
+
+    # Event
+    path('events/', EventListAPIView.as_view(), name='event-list'),
+    path('events/<int:id>/', EventDetailAPIView.as_view(), name='event-detail'),
+    path('events/create/', EventCreateAPIView.as_view(), name='event-create'),
+    path('events/<int:id>/update/', EventUpdateAPIView.as_view(), name='event-update'),
+    path('events/<int:id>/delete/', EventDeleteAPIView.as_view(), name='event-delete'),
 ]

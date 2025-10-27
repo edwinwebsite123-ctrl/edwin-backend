@@ -54,6 +54,12 @@ class PGProgramSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = '__all__'
+
+
 class GalleryItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = GalleryItem

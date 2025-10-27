@@ -1,0 +1,17 @@
+[
+  {
+    "model": "core.event",
+    "pk": 1,
+    "fields": {
+      "title": "GRAND CONVOCATION 2025",
+      "description": "A day to celebrate achievement, dedication, and success! Join us at Edwin Academy as we honour our graduates and their inspiring journeys.",
+      "date": "2025-10-18",
+      "location": "Calicut Tower, Mavoor Road, Calicut",
+      "phone_number": "917736911702",
+      "registration_message": "Hello! I would like to register for the Grand Convocation 2025 at Edwin Academy on October 18, 2025.",
+      "is_active": true,
+      "created_at": "2025-10-27T16:17:00Z",
+      "updated_at": "2025-10-27T16:17:00Z"
+    }
+  }
+]
