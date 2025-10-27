@@ -19,7 +19,13 @@ class LoginView(APIView):
             user = User.objects.get(username=username)
             if user.check_password(password):
                 token, created = Token.objects.get_or_create(user=user)
-                return Response({'token': token.key}, status=status.HTTP_200_OK)
+                return Response({
+                    'token': token.key,
+                    'user': {
+                        'username': user.username,
+                        'is_superuser': user.is_superuser
+                    }
+                }, status=status.HTTP_200_OK)
             else:
                 return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
         except User.DoesNotExist:
@@ -51,7 +57,11 @@ class VerifyTokenView(APIView):
             token = Token.objects.get(key=token_key)
             user = token.user
             # Return some user info if needed
-            return Response({"detail": "Token is valid", "username": user.username}, status=status.HTTP_200_OK)
+            return Response({
+                "detail": "Token is valid",
+                "username": user.username,
+                "is_superuser": user.is_superuser
+            }, status=status.HTTP_200_OK)
         except Token.DoesNotExist:
             return Response({"detail": "Invalid token."}, status=status.HTTP_401_UNAUTHORIZED)
         
@@ -114,7 +124,7 @@ class DashboardCountsView(APIView):
 class RecentLeadsView(APIView):
     def get(self, request):
         # Fetch the last 3 leads ordered by 'created_at' (most recent first)
-        recent_leads = Application.objects.all().order_by('-created_at')[:3]
+        recent_leads = Application.objects.all().order_by('-created_at')[:4]
         serializer = ApplicationSerializer(recent_leads, many=True)
         return Response(serializer.data)
     
