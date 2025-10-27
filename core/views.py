@@ -805,7 +805,7 @@ class GalleryItemDeleteAPIView(APIView):
 # ---------- Event ----------
 class EventListAPIView(APIView):
     def get(self, request):
-        events = Event.objects.filter(is_active=True).order_by('-id')[:1]
+        events = Event.objects.all().order_by('-id')[:1]
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
 
