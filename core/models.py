@@ -203,3 +203,21 @@ class GalleryItem(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.category})" if self.title else "Unnamed Gallery Item"
+
+
+class Blog(models.Model):
+    title = models.CharField(max_length=255, blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    image = models.ImageField(upload_to='blogs/', blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    status_choices = [
+        ('Published', 'Published'),
+        ('Draft', 'Draft'),
+    ]
+    status = models.CharField(max_length=10, choices=status_choices, default='Draft', blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title or "Untitled Blog"

@@ -92,4 +92,11 @@ urlpatterns = [
     path('events/create/', EventCreateAPIView.as_view(), name='event-create'),
     path('events/<int:id>/update/', EventUpdateAPIView.as_view(), name='event-update'),
     path('events/<int:id>/delete/', EventDeleteAPIView.as_view(), name='event-delete'),
+
+    # Blog
+    path('blogs/', BlogListView.as_view(), name='blog-list'),
+    path('blogs/<int:id>/', BlogDetailView.as_view(), name='blog-detail'),
+    path('blogs/create/', BlogCreateView.as_view(), name='blog-create'),
+    path('blogs/<int:id>/update/', BlogUpdateView.as_view(), name='blog-update'),
+    path('blogs/<int:id>/delete/', BlogDeleteView.as_view(), name='blog-delete'),
 ]

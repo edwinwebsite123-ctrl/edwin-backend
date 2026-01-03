@@ -860,3 +860,81 @@ class EventDeleteAPIView(APIView):
             return Response({'detail': 'Event deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except Event.DoesNotExist:
             return Response({'detail': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# ---------- Blog ----------
+class BlogListView(APIView):
+    def get(self, request):
+        if request.user.is_authenticated:
+            blogs = Blog.objects.all().order_by('-created_at')
+        else:
+            blogs = Blog.objects.filter(status='Published').order_by('-created_at')
+        serializer = BlogSerializer(blogs, many=True)
+        return Response(serializer.data)
+
+
+class BlogDetailView(APIView):
+    def get(self, request, id):
+        try:
+            if request.user.is_authenticated:
+                blog = Blog.objects.get(id=id)
+            else:
+                blog = Blog.objects.get(id=id, status='Published')
+            serializer = BlogSerializer(blog)
+            return Response(serializer.data)
+        except Blog.DoesNotExist:
+            return Response({'detail': 'Blog not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class BlogCreateView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = BlogSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BlogUpdateView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request, id):
+        try:
+            blog = Blog.objects.get(id=id)
+        except Blog.DoesNotExist:
+            return Response({'detail': 'Blog not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = BlogSerializer(blog, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, id):
+        try:
+            blog = Blog.objects.get(id=id)
+        except Blog.DoesNotExist:
+            return Response({'detail': 'Blog not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = BlogSerializer(blog, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BlogDeleteView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, id):
+        try:
+            blog = Blog.objects.get(id=id)
+            blog.delete()
+            return Response({'detail': 'Blog deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except Blog.DoesNotExist:
+            return Response({'detail': 'Blog not found'}, status=status.HTTP_404_NOT_FOUND)
