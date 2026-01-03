@@ -874,12 +874,19 @@ class BlogListView(APIView):
 
 
 class BlogDetailView(APIView):
-    def get(self, request, id):
+    def get(self, request, slug=None, id=None):
         try:
-            if request.user.is_authenticated:
-                blog = Blog.objects.get(id=id)
+            if slug:
+                lookup = {'slug': slug}
+            elif id:
+                lookup = {'id': id}
             else:
-                blog = Blog.objects.get(id=id, status='Published')
+                return Response({'detail': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)
+
+            if request.user.is_authenticated:
+                blog = Blog.objects.get(**lookup)
+            else:
+                blog = Blog.objects.get(status='Published', **lookup)
             serializer = BlogSerializer(blog)
             return Response(serializer.data)
         except Blog.DoesNotExist:

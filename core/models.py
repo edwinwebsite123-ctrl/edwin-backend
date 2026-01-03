@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.text import slugify
+from django.utils.crypto import get_random_string
 
 class Application(models.Model):
     # Personal details
@@ -207,6 +209,7 @@ class GalleryItem(models.Model):
 
 class Blog(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     date = models.DateField(blank=True, null=True)
     image = models.ImageField(upload_to='blogs/', blank=True, null=True)
     content = models.TextField(blank=True, null=True)
@@ -218,6 +221,17 @@ class Blog(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug and self.title:
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+            while Blog.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title or "Untitled Blog"

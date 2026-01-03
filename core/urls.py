@@ -95,8 +95,9 @@ urlpatterns = [
 
     # Blog
     path('blogs/', BlogListView.as_view(), name='blog-list'),
-    path('blogs/<int:id>/', BlogDetailView.as_view(), name='blog-detail'),
     path('blogs/create/', BlogCreateView.as_view(), name='blog-create'),
+    path('blogs/<int:id>/', BlogDetailView.as_view(), name='blog-detail-id'),  # Admin uses id
+    path('blogs/<slug:slug>/', BlogDetailView.as_view(), name='blog-detail-slug'),  # Public uses slug
     path('blogs/<int:id>/update/', BlogUpdateView.as_view(), name='blog-update'),
     path('blogs/<int:id>/delete/', BlogDeleteView.as_view(), name='blog-delete'),
 ]
