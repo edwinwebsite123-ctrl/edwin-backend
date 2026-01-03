@@ -93,11 +93,14 @@ urlpatterns = [
     path('events/<int:id>/update/', EventUpdateAPIView.as_view(), name='event-update'),
     path('events/<int:id>/delete/', EventDeleteAPIView.as_view(), name='event-delete'),
 
-    # Blog
+    # Blog - Public endpoints
     path('blogs/', BlogListView.as_view(), name='blog-list'),
-    path('blogs/create/', BlogCreateView.as_view(), name='blog-create'),
-    path('blogs/<int:id>/', BlogDetailView.as_view(), name='blog-detail-id'),  # Admin uses id
-    path('blogs/<slug:slug>/', BlogDetailView.as_view(), name='blog-detail-slug'),  # Public uses slug
-    path('blogs/<int:id>/update/', BlogUpdateView.as_view(), name='blog-update'),
-    path('blogs/<int:id>/delete/', BlogDeleteView.as_view(), name='blog-delete'),
+    path('blogs/<slug:slug>/', BlogDetailView.as_view(), name='blog-detail'),
+
+    # Blog - Admin endpoints
+    path('admin/blogs/', AdminBlogListView.as_view(), name='admin-blog-list'),
+    path('admin/blogs/<int:id>/', AdminBlogDetailView.as_view(), name='admin-blog-detail'),
+    path('admin/blogs/create/', BlogCreateView.as_view(), name='blog-create'),
+    path('admin/blogs/<int:id>/update/', BlogUpdateView.as_view(), name='blog-update'),
+    path('admin/blogs/<int:id>/delete/', BlogDeleteView.as_view(), name='blog-delete'),
 ]

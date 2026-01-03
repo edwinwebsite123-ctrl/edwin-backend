@@ -864,29 +864,51 @@ class EventDeleteAPIView(APIView):
 
 # ---------- Blog ----------
 class BlogListView(APIView):
+    """
+    Public endpoint - List published blogs only
+    """
     def get(self, request):
-        if request.user.is_authenticated:
-            blogs = Blog.objects.all().order_by('-created_at')
-        else:
-            blogs = Blog.objects.filter(status='Published').order_by('-created_at')
+        blogs = Blog.objects.filter(status='Published').order_by('-created_at')
+        serializer = BlogSerializer(blogs, many=True)
+        return Response(serializer.data)
+
+
+class AdminBlogListView(APIView):
+    """
+    Admin endpoint - List all blogs (requires authentication)
+    """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        blogs = Blog.objects.all().order_by('-created_at')
         serializer = BlogSerializer(blogs, many=True)
         return Response(serializer.data)
 
 
 class BlogDetailView(APIView):
-    def get(self, request, slug=None, id=None):
+    """
+    Public endpoint - Retrieve published blog by slug
+    """
+    def get(self, request, slug):
         try:
-            if slug:
-                lookup = {'slug': slug}
-            elif id:
-                lookup = {'id': id}
-            else:
-                return Response({'detail': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)
+            blog = Blog.objects.get(slug=slug, status='Published')
+            serializer = BlogSerializer(blog)
+            return Response(serializer.data)
+        except Blog.DoesNotExist:
+            return Response({'detail': 'Blog not found'}, status=status.HTTP_404_NOT_FOUND)
 
-            if request.user.is_authenticated:
-                blog = Blog.objects.get(**lookup)
-            else:
-                blog = Blog.objects.get(status='Published', **lookup)
+
+class AdminBlogDetailView(APIView):
+    """
+    Admin endpoint - Retrieve any blog by ID (requires authentication)
+    """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, id):
+        try:
+            blog = Blog.objects.get(id=id)
             serializer = BlogSerializer(blog)
             return Response(serializer.data)
         except Blog.DoesNotExist:
