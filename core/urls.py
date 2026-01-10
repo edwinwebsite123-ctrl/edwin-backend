@@ -103,4 +103,7 @@ urlpatterns = [
     path('admin/blogs/create/', BlogCreateView.as_view(), name='blog-create'),
     path('admin/blogs/<int:id>/update/', BlogUpdateView.as_view(), name='blog-update'),
     path('admin/blogs/<int:id>/delete/', BlogDeleteView.as_view(), name='blog-delete'),
+
+    path("admin/blogs/editor/upload/", BlogImageUploadView.as_view()),
+
 ]

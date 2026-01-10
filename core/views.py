@@ -9,6 +9,11 @@ from .serializers import *
 from .models import *
 from rest_framework import generics
 
+from rest_framework.parsers import MultiPartParser
+from django.core.files.storage import default_storage
+from django.conf import settings
+
+
 class LoginView(APIView):
     def post(self, request):
         # Get username and password from the request
@@ -967,3 +972,33 @@ class BlogDeleteView(APIView):
             return Response({'detail': 'Blog deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
         except Blog.DoesNotExist:
             return Response({'detail': 'Blog not found'}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+class BlogImageUploadView(APIView):
+    parser_classes = [MultiPartParser]
+
+    def post(self, request):
+        image = request.FILES.get("upload")
+
+        if not image:
+            return Response(
+                {"error": "No image provided"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Validate file type
+        allowed_types = ["image/jpeg", "image/png", "image/webp"]
+        if image.content_type not in allowed_types:
+            return Response(
+                {"error": "Only JPG, PNG and WebP images are allowed"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Save file
+        path = default_storage.save("blog-content/" + image.name, image)
+
+        return Response({
+            "uploaded": True,
+            "url": request.build_absolute_uri(settings.MEDIA_URL + path)
+        }, status=status.HTTP_201_CREATED)
